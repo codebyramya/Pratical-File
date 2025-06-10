@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Purple Animated Button</title>
+    <style>
+        .purple-btn {
+            margin-top: 20%;
+            margin-left: 20%;
+            background: linear-gradient(90deg, #a4508b 0%, #5f0a87 100%);
+            color: #fff;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(95, 10, 135, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.4s;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purple-btn::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 100%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 0;
+        }
+
+        .purple-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 32px rgba(95, 10, 135, 0.3);
+            background: linear-gradient(90deg, #5f0a87 0%, #a4508b 100%);
+        }
+
+        .purple-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .purple-btn span {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+     <button class="purple-btn"><span> Button Animation</span></button> 
+
+
+    
+</body>
+
+</html>

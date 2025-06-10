@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Filling with Water Effect</title>
+    <style>
+        body {
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            position: relative;
+            width: 500px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .water-text {
+            font-size: 100px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #fff;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 150px;
+            z-index: 2;
+            mix-blend-mode: difference;
+            pointer-events: none;
+        }
+        .water-fill {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="water-text" id="waterText">WATER</div>
+        <div class="water-fill">
+            <canvas id="waterCanvas" width="500" height="150"></canvas>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('waterCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        let waveOffset = 0;
+
+        function drawWater(level) {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw water
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            for (let x = 0; x <= width; x++) {
+                let y = height - level * height + Math.sin((x + waveOffset) * 0.04) * 10;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fillStyle = '#00bfff';
+            ctx.globalAlpha = 0.7;
+            ctx.fill();
+            ctx.restore();
+
+            // Draw text mask
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.font = 'bold 100px Arial, Helvetica, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('WATER', width / 2, height / 2 + 10);
+            ctx.restore();
+        }
+
+        let fillLevel = 0;
+        let direction = 1;
+
+        function animate() {
+            waveOffset += 2;
+            fillLevel += direction * 0.003;
+            if (fillLevel > 1) {
+                fillLevel = 1;
+                direction = -1;
+            } else if (fillLevel < 0) {
+                fillLevel = 0;
+                direction = 1;
+            }
+            drawWater(fillLevel);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

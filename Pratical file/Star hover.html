@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mouse Hover Colorful Star Effect</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #181c2f;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            pointer-events: none;
+            width: 24px;
+            height: 24px;
+            opacity: 0.85;
+            animation: star-fade 0.8s linear forwards;
+            will-change: transform, opacity;
+        }
+        @keyframes star-fade {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.5) rotate(180deg) translateY(-30px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Hastings-style star SVG path
+        const starSVG = (color) => `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="12,2 15,9 22,9.5 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.5 9,9" />
+            </svg>
+        `;
+
+        // Generate a random pastel color
+        function randomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsl(${hue}, 80%, 70%)`;
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = (e.clientX - 12) + 'px';
+            star.style.top = (e.clientY - 12) + 'px';
+            star.innerHTML = starSVG(randomColor());
+            document.body.appendChild(star);
+
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        });
+    </script>
+</body>
+</html>
