@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Colorful Loading Progress Bar</title>
+    <style>
+        body {
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .progress-container {
+            width: 400px;
+            background: #444;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px #0008;
+            padding: 10px;
+        }
+        .progress-bar {
+            height: 30px;
+            width: 0;
+            background: linear-gradient(90deg, #ff6a00, #ffd800, #21d4fd, #b721ff);
+            border-radius: 30px;
+            transition: width 0.4s cubic-bezier(.4,2,.6,1);
+            box-shadow: 0 0 10px #fff8, 0 0 20px #21d4fd88;
+        }
+        .progress-text {
+            text-align: center;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin-top: 10px;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-text" id="progressText">0%</div>
+    </div>
+    <script>
+
+        
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        function updateProgress() {
+            if (progress <= 100) {
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+                progress++;
+                setTimeout(updateProgress, 40);
+            } else {
+                progressText.textContent = "Loaded!";
+            }
+        }
+
+        updateProgress();
+
+    </script>
+</body>
+</html>
